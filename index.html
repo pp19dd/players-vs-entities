@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+<head>
+    <title>pve test</title>
+    <meta charset="utf-8" />
+</head>
+<body>
+    <div id="display"></div>
+    <script src="engine.js"></script>
+    <script src="cooldown.js"></script>
+    <script src="entity.js"></script>
+    <script src="plant.js"></script>
+    <script>
+        var d = document.getElementById('display');
+        var engine = new Engine({ debug: true });
+
+        var p1 = new Plant({});
+        engine.addItem(p1);
+        //var e1 = new Entity({});
+        // c1.onReady(function() {
+        //     console.info( "PEW" );
+        // });
+        //engine.addItem(e1);
+
+        engine.Start();
+
+        console.dir( engine.entities[0] );
+
+    </script>
+</body>
+</html>
