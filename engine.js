@@ -18,6 +18,7 @@ function Engine(e) {
 Engine.prototype.defaultInit = function(e) {
     this.entities = [];
     this.interval = 10;
+    this.debug_interval = 100;
     this.debug = false;
     this.__pause = false;
     mixProperties( this, e );
@@ -75,7 +76,6 @@ Engine.prototype.updateDebugEntity = function(e) {
             "<progress value='" + e.cooldowns[key].complete +
             "' max='100'></progress>";
     }
-    //html += "</div>";
     e.debug_div.innerHTML = html;
 }
 
@@ -83,18 +83,21 @@ Engine.prototype.Pause = function(true_or_false) {
     this.__pause = true_or_false;
 }
 
-Engine.prototype.Start = function() {
+Engine.prototype.setupBoard = function() {
+
+}
+
+Engine.prototype.setupDebugCycle = function() {
     var that = this;
+    setInterval(function() {
+        for( var i = 0; i < that.entities.length; i++ ) {
+            that.updateDebugEntity(that.entities[i]);
+        }
+    }, this.debug_interval);
+}
 
-    // separate loop for debug display
-    if( that.debug === true ) {
-        setInterval(function() {
-            for( var i = 0; i < that.entities.length; i++ ) {
-                that.updateDebugEntity(that.entities[i]);
-            }
-        }, 100);
-    }
-
+Engine.prototype.setupTicker = function() {
+    var that = this;
     setInterval(function() {
         if( that.__pause === true ) return;
 
@@ -103,4 +106,10 @@ Engine.prototype.Start = function() {
             that.entities[i].doTick(that);
         }
     }, this.interval);
+}
+
+Engine.prototype.Start = function() {
+    this.setupBoard();
+    if( that.debug === true ) this.setupDebugCycle();
+    this.setupTicker();
 }
