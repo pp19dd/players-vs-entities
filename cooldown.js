@@ -29,12 +29,9 @@ Cooldown.prototype.defaultInit = function(e) {
     this.__onready = null;
     this.__onupdate = null;
 
-    this.Init(e);
-}
-
-Cooldown.prototype.Init = function(e) {
     mixProperties( this, e );
     this.computeDelta();
+    //TODO: need to attach this to a startup event?
 }
 
 Cooldown.prototype.computeDelta = function(e) {

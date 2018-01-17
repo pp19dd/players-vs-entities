@@ -1,0 +1,56 @@
+
+body, html {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    font-family: Courier New;
+    font-size: 14px;
+    background-color:#FFFFFF;
+}
+
+/* engine debug */
+div.pve-debug {
+    padding: 1em;
+    display: flex;
+    background-color: silver;
+}
+
+div.pve-debug-control {
+    padding: 0.25em;
+}
+
+div.pve-debug-control button {
+    font-family: Courier New;
+    font-size: 14px;
+    width: 80px;
+    margin-right: 1em;
+    cursor: pointer;
+}
+
+div.pve-debug-entity {
+    width: 150px;
+    margin-right: 1em;
+}
+
+div.pve-debug-entity-disabled {
+    opacity: 0.3;
+}
+
+div.pve-debug-entity-name {
+    font-weight: bold;
+}
+
+div.pve-debug-entity-cooldown {
+    text-align: right;
+}
+
+div.pve-debug-entity progress {
+    width:100%;
+    height: 7px;
+    background-color: #DDDDDD;
+    color: #7FDBFF;
+    display: block;
+    margin-bottom: 3px;
+    border: 0px;
+}

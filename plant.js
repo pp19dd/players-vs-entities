@@ -17,9 +17,10 @@ Plant.prototype.wakeUp = function() {
         shooting_solution.__active = true;
     });
 
-    var shooting_solution = new Cooldown({ name: "shooting_solution", per_second: 1/3 });
+    var shooting_solution = new Cooldown({ name: "aim", per_second: 1/3 });
     shooting_solution.onReady(function() {
         console.info( "nothing to shoot, partner" );
+        that.__active = false;
     });
     shooting_solution.__active = false;
 

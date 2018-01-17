@@ -3,6 +3,7 @@
 <head>
     <title>pve test</title>
     <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="default.css" />
 </head>
 <body>
     <div id="display"></div>
@@ -14,8 +15,16 @@
         var d = document.getElementById('display');
         var engine = new Engine({ debug: true });
 
-        var p1 = new Plant({});
-        engine.addItem(p1);
+        function make_random() {
+            var p = new Plant({ });
+            p.public.x = parseInt(Math.random() * 20);
+            p.public.y = parseInt(Math.random() * 10);
+            p.public.life = parseInt(Math.random() * 100);
+            engine.addItem(p);
+        }
+
+        make_random();
+
         //var e1 = new Entity({});
         // c1.onReady(function() {
         //     console.info( "PEW" );
@@ -24,7 +33,7 @@
 
         engine.Start();
 
-        console.dir( engine.entities[0] );
+        //console.dir( engine.entities[0] );
 
     </script>
 </body>

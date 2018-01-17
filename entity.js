@@ -7,13 +7,15 @@ Entity.prototype.defaultInit = function(e) {
     this.name = "entity";
     this.cooldowns = [];
 
+    this.public = {
+        x: 0,
+        y: 0,
+        life: 100
+    };
+
     this.__active = true;
     this.__awake = false;
 
-    this.Init(e);
-}
-
-Entity.prototype.Init = function(e) {
     mixProperties( this, e );
 }
 

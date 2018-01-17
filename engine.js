@@ -19,54 +19,87 @@ Engine.prototype.defaultInit = function(e) {
     this.entities = [];
     this.interval = 10;
     this.debug = false;
-    this.Init(e);
+    this.__pause = false;
+    mixProperties( this, e );
 
     if( this.debug === true ) this.setupDebug();
 }
 
-Engine.prototype.Init = function(e) {
-    mixProperties( this, e );
-}
-
 Engine.prototype.addItem = function(e) {
-    e.Init({ interval: this.interval });
+    mixProperties(e, { interval: this.interval });
     if( this.debug === true ) this.setupDebugEntity(e);
 
     this.entities.push(e);
 }
 
 Engine.prototype.setupDebug = function() {
+    var that = this;
+
     this.div = document.createElement("div");
-    this.div.style = "border-bottom:1px solid silver; padding-bottom:5px; display: flex;";
+    this.div.className = "pve-debug";
     document.body.appendChild(this.div);
+
+    var ctrl = document.createElement("div");
+    ctrl.className = "pve-debug-control";
+
+    var p = document.createElement("button");
+    p.innerHTML = 'Pause';
+    p.onclick = function() {
+        p.innerHTML = that.__pause ? "Pause" : "Resume";
+        that.Pause(!that.__pause);
+    };
+    ctrl.appendChild(p);
+
+    this.div.appendChild(ctrl);
+
 }
 
 Engine.prototype.setupDebugEntity = function(e) {
     e.debug_div = document.createElement("div");
-    e.debug_div.style = "color: red;";
-
+    e.debug_div.className = "pve-debug-entity";
     this.div.appendChild(e.debug_div);
 }
 
 Engine.prototype.updateDebugEntity = function(e) {
-    var html = e.name + ":";
-    for( var key in e.cooldowns ) {
-        html += e.cooldowns[key].name + " = " + e.cooldowns[key].complete + "%";
+    if( e.__active === false ) {
+        e.debug_div.className = "pve-debug-entity pve-debug-entity-disabled";
     }
-    //for( var key in e ) {
-        // html += key.toString() + " = " + e[key].toString() + "<br/>";
-    //}
+
+    var html = "<div class='pve-debug-entity-name'>" + e.name + "</div>";
+    for( var k in e.public) {
+        html += "<div>" + k + ":" + e.public[k] + "</div>";
+    }
+    for( var key in e.cooldowns ) {
+        html +=
+            "<div class='pve-debug-entity-cooldown'>" + e.cooldowns[key].name + "</div>" +
+            "<progress value='" + e.cooldowns[key].complete +
+            "' max='100'></progress>";
+    }
+    //html += "</div>";
     e.debug_div.innerHTML = html;
+}
+
+Engine.prototype.Pause = function(true_or_false) {
+    this.__pause = true_or_false;
 }
 
 Engine.prototype.Start = function() {
     var that = this;
+
+    // separate loop for debug display
+    if( that.debug === true ) {
+        setInterval(function() {
+            for( var i = 0; i < that.entities.length; i++ ) {
+                that.updateDebugEntity(that.entities[i]);
+            }
+        }, 100);
+    }
+
     setInterval(function() {
+        if( that.__pause === true ) return;
+
         for( var i = 0; i < that.entities.length; i++ ) {
-            if( that.debug === true ) that.updateDebugEntity(that.entities[i]);
-
             if( that.entities[i].__active === false ) continue;
-
             that.entities[i].doTick(that);
         }
     }, this.interval);
