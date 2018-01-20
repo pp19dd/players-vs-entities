@@ -43,10 +43,16 @@ RendererRaphael.prototype.updatePause = function() {
 RendererRaphael.prototype.drawEntity = function(e) {
     console.info( "RendererRaphael RENDERER: drawing entity " + e.name );
     // console.dir( e );
-    console.info( artwork.entities.flower );
+    //console.info( artwork.entities.flower );
     //var p = this.paper.path();
-    var p = this.paper;
-    console.info( p );
+    //var key = e.name.substr(7);
+    var key = e.name;
+    var p = this.paper.path(artwork.entities[key]);
+    
+    //console.dir( e.public );
+    p.translate(e.public.x * this.sx, e.public.y * this.sy);
+
+    //console.info( p );
 }
 
 RendererRaphael.prototype.updateEntity = function(e) {

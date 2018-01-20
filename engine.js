@@ -56,6 +56,7 @@ Engine.prototype.setBoardXY = function(x, y, o) {
 Engine.prototype.setRenderer = function(r) {
     r.engine = this;
     this.renderer = r;
+    this.renderer.setupBoard();
 }
 
 Engine.prototype.addItem = function(e) {
@@ -138,7 +139,7 @@ Engine.prototype.setupTicker = function() {
 }
 
 Engine.prototype.Start = function() {
-    this.renderer.setupBoard();
+    console.info( "ENGINE: start");
     if( this.debug === true ) this.setupDebugCycle();
     this.renderer.resetBoard();
     this.setupTicker();
