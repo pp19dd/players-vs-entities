@@ -9,6 +9,9 @@ body, html {
     background-color:#FFFFFF;
 }
 
+/* board */
+
+
 /* engine debug */
 div.pve-debug {
     padding: 1em;

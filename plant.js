@@ -2,31 +2,47 @@
 function Plant(e) {
     this.defaultInit(e);
     this.name = "entity_plant";
+
+    this.addCooldown( "Sprout", { per_second: 10 } );
+    this.addCooldown( "ShootingSolution", { per_second: 7 } );
+    this.addCooldown( "Shoot", { per_second: 5 } );
+
+    this.Sprout.Start();
 }
 
 Plant.prototype = Object.create(Entity.prototype);
 
-Plant.prototype.wakeUp = function() {
-    var that = this;
+Plant.prototype.onSprout = function() {
+    this.Sprout.Stop();
+    this.ShootingSolution.Start();
 
-    console.info( "YAWWWN ");
-    var seed = new Cooldown({ name: "sprout", per_second: 1/5});
-    seed.onReady(function() {
-        seed.__active = false;
-        console.info( "I'm up, I'm up" );
-        shooting_solution.__active = true;
-    });
+    // this.disableSprout();
+    // this.enableShootingSolution();
+}
 
-    var shooting_solution = new Cooldown({ name: "aim", per_second: 1/3 });
-    shooting_solution.onReady(function() {
-        console.info( "nothing to shoot, partner" );
-        that.__active = false;
-    });
-    shooting_solution.__active = false;
+Plant.prototype.onShootingSolution = function() {
+    // this.disableShootingSolution();
+    // this.enableShoot();
+    this.ShootingSolution.Stop();
+    this.Shoot.Start();
+}
 
-    seed.onUpdate(function() {
-        // console.info( "JOSS" + seed.complete );
-    });
-    this.cooldowns.push(seed);
-    this.cooldowns.push(shooting_solution);
+Plant.prototype.onShoot = function() {
+    this.Shoot.Stop();
+    // this.Shoot.Reset();
+    // this.ShootingSolution.Reset();
+    // this.Sprout.Reset();
+
+    if( this.public.life <= 0 ) {
+        this.addCooldown( "Dying", { per_second: 1/5 } );
+        this.Dying.Start();
+        return;
+    }
+    this.Sprout.Start();
+    this.public.life--;
+    // this.disableShoot();
+    // this.enableSprout();
+    // this.registerCooldowns([
+    //     { name: "derp_" + this.cooldowns.length, per_second: 3 }
+    // ]);
 }

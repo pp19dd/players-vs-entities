@@ -17,19 +17,51 @@ function Engine(e) {
 
 Engine.prototype.defaultInit = function(e) {
     this.entities = [];
+
+    this.board = []; // dimensioned by setBoardSize
+    this.board_width = 20;
+    this.board_height = 8;
+
     this.interval = 10;
     this.debug_interval = 100;
+
     this.debug = false;
     this.__pause = false;
+
+    this.setBoardSize(this.board_width, this.board_height);
     mixProperties( this, e );
 
     if( this.debug === true ) this.setupDebug();
 }
 
+// elements accessed as [x][y]
+Engine.prototype.setBoardSize = function(w, h) {
+    this.board = [];
+    this.board_width = w;
+    this.board_height = h;
+    for( var i = 0; i < w; i++ ) {
+        var col = [];
+
+        for( var j = 0; j < h; j++ ) {
+            col.push(null);
+        }
+        this.board.push(col);
+    }
+}
+
+Engine.prototype.setBoardXY = function(x, y, o) {
+    this.board[x][y] = o;
+}
+
+Engine.prototype.setRenderer = function(r) {
+    r.engine = this;
+    this.renderer = r;
+}
+
 Engine.prototype.addItem = function(e) {
     mixProperties(e, { interval: this.interval });
     if( this.debug === true ) this.setupDebugEntity(e);
-
+    this.renderer.drawEntity(e);
     this.entities.push(e);
 }
 
@@ -81,10 +113,7 @@ Engine.prototype.updateDebugEntity = function(e) {
 
 Engine.prototype.Pause = function(true_or_false) {
     this.__pause = true_or_false;
-}
-
-Engine.prototype.setupBoard = function() {
-
+    this.renderer.updatePause(this.__pause);
 }
 
 Engine.prototype.setupDebugCycle = function() {
@@ -109,7 +138,8 @@ Engine.prototype.setupTicker = function() {
 }
 
 Engine.prototype.Start = function() {
-    this.setupBoard();
-    if( that.debug === true ) this.setupDebugCycle();
+    this.renderer.setupBoard();
+    if( this.debug === true ) this.setupDebugCycle();
+    this.renderer.resetBoard();
     this.setupTicker();
 }

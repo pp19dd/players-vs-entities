@@ -22,12 +22,13 @@ Cooldown.prototype.defaultInit = function(e) {
     this.delta = 2;
 
     // event hooks and properties
-    this.__active = true;
+    this.__active = false;
     this.__awake = false;
 
     this.wakeUp = null;
     this.__onready = null;
     this.__onupdate = null;
+    this.__entity = null;
 
     mixProperties( this, e );
     this.computeDelta();
@@ -48,6 +49,19 @@ Cooldown.prototype.onReady = function(f) {
     this.__onready = f;
 }
 
+Cooldown.prototype.Start = function(f) {
+    this.__active = true;
+}
+
+Cooldown.prototype.Stop = function(f) {
+    this.__active = false;
+}
+
+Cooldown.prototype.Reset = function(f) {
+    this.current = this.min;
+    this.computeFriendly();
+}
+
 Cooldown.prototype.onUpdate = function(f) {
     this.__onupdate = f;
 }
@@ -66,5 +80,5 @@ Cooldown.prototype.doTick = function(engine) {
     this.current = this.min;
     if( typeof this.__onready !== 'function' ) return;
 
-    this.__onready.call();
+    this.__onready.call(this.__entity, this);
 }

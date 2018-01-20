@@ -19,26 +19,20 @@ Entity.prototype.defaultInit = function(e) {
     mixProperties( this, e );
 }
 
+Entity.prototype.addCooldown = function(obj, parms) {
+    this[obj] = new Cooldown(parms);
+    this[obj].name = obj;
+    this[obj].__entity = this;
+    this[obj].__onready = this["on" + obj];
+    if(parms.start == true) this[obj].__active = true;
+    this.cooldowns.push(this[obj]);
+}
+
 Entity.prototype.doTick = function(engine) {
     if( this.__active === false ) return;
-    if(
-        this.__awake === false &&
-        typeof this.wakeUp === "function"
-    ) {
-        this.__awake = true;
-        this.wakeUp();
-    }
 
     for( var i in this.cooldowns ) {
         if( this.cooldowns[i].__active === false ) continue;
-        if(
-            this.cooldowns[i].__awake === false &&
-            typeof this.cooldowns[i].wakeUp === "function"
-        ) {
-            this.cooldowns[i].__awake = true;
-            this.cooldowns[i].wakeUp();
-        }
-
         this.cooldowns[i].doTick();
     }
 }
