@@ -3,9 +3,7 @@
 // returns JS structure
 
 function parse_svg($filename) {
-    $ret = array(
-        "entities" => array()
-    );
+    $ret = array();
 
     $doc = new DOMDocument();
     $doc->loadXML(file_get_contents($filename));
@@ -14,19 +12,23 @@ function parse_svg($filename) {
     $rootNamespace = $doc->lookupNamespaceUri($doc->namespaceURI);
     $xpath->registerNamespace('svg', $rootNamespace);
 
-    $entities = $xpath->query("//svg:g[@id='entities']");
-    foreach( $entities as $entity ) {
-        $paths = $xpath->query(".//svg:path", $entity);
+    $paths = $xpath->query("//svg:path");
 
-        foreach( $paths as $path ) {
-            $id = $path->getAttribute("id");
-            $d = $path->getAttribute("d");
-            $ret["entities"][$id] = $d;
-        }
+    foreach( $paths as $path ) {
+        $d = $path->getAttribute("d");
+        $ret[] = $d;
     }
 
     return( $ret );
 }
 
-$x = parse_svg("art-set-01.svg");
+function get_set($folder) {
+    $ret = array();
+    $ret["entity_plant"] = parse_svg("sets/{$folder}/flower.svg");
+    $ret["entity_zombie"] = parse_svg("sets/{$folder}/zombie.svg");
+    return( $ret );
+}
+
+$x = get_set("test");
+
 printf( "var artwork = %s;\n", json_encode($x, JSON_PRETTY_PRINT));

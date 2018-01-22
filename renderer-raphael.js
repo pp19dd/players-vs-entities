@@ -53,7 +53,8 @@ RendererRaphael.prototype.drawEntity = function(e) {
     //var p = this.paper.path();
     //var key = e.name.substr(7);
     var key = e.name;
-    e.obj = this.paper.path(artwork.entities[key]);
+    e.obj = this.paper.path(artwork[key]);
+    
     this.reposition(e.obj, e);
     //console.dir( e.public );
 
