@@ -59,9 +59,10 @@ Engine.prototype.setRenderer = function(r) {
     this.renderer.setupBoard();
 }
 
-Engine.prototype.addItem = function(e) {
+Engine.prototype.addEntity = function(e) {
     mixProperties(e, { interval: this.interval });
     if( this.debug === true ) this.setupDebugEntity(e);
+    e.engine = this;
     this.renderer.drawEntity(e);
     this.entities.push(e);
 }
@@ -94,6 +95,10 @@ Engine.prototype.setupDebugEntity = function(e) {
     this.div.appendChild(e.debug_div);
 }
 
+Engine.prototype.numberDisplay = function(n) {
+    return( Math.round(n*10) / 10 );
+}
+
 Engine.prototype.updateDebugEntity = function(e) {
     if( e.__active === false ) {
         e.debug_div.className = "pve-debug-entity pve-debug-entity-disabled";
@@ -101,7 +106,7 @@ Engine.prototype.updateDebugEntity = function(e) {
 
     var html = "<div class='pve-debug-entity-name'>" + e.name + "</div>";
     for( var k in e.public) {
-        html += "<div>" + k + ":" + e.public[k] + "</div>";
+        html += "<div>" + k + ":" + this.numberDisplay(e.public[k]) + "</div>";
     }
     for( var key in e.cooldowns ) {
         html +=

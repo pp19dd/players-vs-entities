@@ -19,6 +19,31 @@ Entity.prototype.defaultInit = function(e) {
     mixProperties( this, e );
 }
 
+//FIXME: collisions not working?
+Entity.prototype.hasCollisions = function() {
+    var ret = [];
+    var padding = 0.9;
+    console.clear();
+    for( var i = 0; i < this.engine.entities.length; i++ ) {
+        if( this.engine.entities[i].__active === false ) continue;
+        if( this.engine.entities[i].public.y != this.public.y ) continue;
+
+        var a = this.public;
+        var b = this.engine.entities[i].public;
+
+        console.info( a, b );
+
+        // if(
+        //     this.public.x <= this.engine.entities[i].public.x + padding &&
+        //     this.public.x >= this.engine.entities[i].public.x - padding
+        // ) {
+        //     ret.push(this.engine.entities);
+        // }
+    }
+
+    return( ret );
+}
+
 Entity.prototype.addCooldown = function(obj, parms) {
     this[obj] = new Cooldown(parms);
     this[obj].name = obj;
@@ -34,5 +59,6 @@ Entity.prototype.doTick = function(engine) {
     for( var i in this.cooldowns ) {
         if( this.cooldowns[i].__active === false ) continue;
         this.cooldowns[i].doTick();
+        // this.engine.renderer.updateEntity(this);
     }
 }

@@ -3,7 +3,7 @@
 <head>
     <title>pve test</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" type="text/css" href="default.css" />
+    <link rel="stylesheet" type="text/css" href="default.css?ts=<?php echo time() ?>" />
 </head>
 <body>
     <div id="display"></div>
@@ -42,7 +42,7 @@
             p.public.x = parseInt(Math.random() * engine.board_width/3);
             p.public.y = parseInt(Math.random() * engine.board_height);
             p.public.life = parseInt(Math.random() * 100);
-            engine.addItem(p);
+            engine.addEntity(p);
 
             var z = new Zombie({ });
             z.public.x = parseInt(
@@ -51,7 +51,7 @@
             );
             z.public.y = parseInt(Math.random() * engine.board_height);
             z.public.life = parseInt(Math.random() * 100);
-            engine.addItem(z);
+            engine.addEntity(z);
 
         }
 
@@ -64,7 +64,7 @@
         // c1.onReady(function() {
         //     console.info( "PEW" );
         // });
-        //engine.addItem(e1);
+        //engine.addEntity(e1);
 
         engine.Start();
 

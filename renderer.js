@@ -5,6 +5,7 @@ function Renderer(e) {
 
 Renderer.prototype.defaultInit = function(e) {
     this.name = "renderer";
+    this.render_interval = 100;
     console.info( "RENDERER: default init" );
 }
 

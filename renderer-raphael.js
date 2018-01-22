@@ -27,7 +27,6 @@ RendererRaphael.prototype.setupBoard = function() {
                 case 'water': r.attr({ fill: 'blue' }); break;
                 default: r.attr({ fill: 'silver' }); break;
             }
-
         }
     }
 }
@@ -40,6 +39,13 @@ RendererRaphael.prototype.updatePause = function() {
     console.info( "RendererRaphael RENDERER: updating game state" );
 }
 
+RendererRaphael.prototype.reposition = function(obj, e) {
+    var nx = e.public.x * this.sx;
+    var ny = e.public.y * this.sy;
+
+    obj.transform("T" + nx + "," + ny );
+}
+
 RendererRaphael.prototype.drawEntity = function(e) {
     console.info( "RendererRaphael RENDERER: drawing entity " + e.name );
     // console.dir( e );
@@ -47,16 +53,18 @@ RendererRaphael.prototype.drawEntity = function(e) {
     //var p = this.paper.path();
     //var key = e.name.substr(7);
     var key = e.name;
-    var p = this.paper.path(artwork.entities[key]);
-    
+    e.obj = this.paper.path(artwork.entities[key]);
+    this.reposition(e.obj, e);
     //console.dir( e.public );
-    p.translate(e.public.x * this.sx, e.public.y * this.sy);
+
 
     //console.info( p );
 }
 
 RendererRaphael.prototype.updateEntity = function(e) {
-    console.info( "RendererRaphael RENDERER: updating entity " + e.name );
+    // console.info( "RendererRaphael RENDERER: updating entity " + e.name );
+    //e.path.translate(e.public.x,)
+    this.reposition(e.obj, e);
 }
 
 RendererRaphael.prototype.eraseEntity = function(e) {
