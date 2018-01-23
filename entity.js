@@ -22,23 +22,19 @@ Entity.prototype.defaultInit = function(e) {
 //FIXME: collisions not working?
 Entity.prototype.hasCollisions = function() {
     var ret = [];
-    var padding = 0.9;
-    console.clear();
+    var padding = 0.8;
+    // console.clear();
     for( var i = 0; i < this.engine.entities.length; i++ ) {
         if( this.engine.entities[i].__active === false ) continue;
+        if( this.engine.entities[i].serial === this.serial ) continue;
         if( this.engine.entities[i].public.y != this.public.y ) continue;
 
-        var a = this.public;
-        var b = this.engine.entities[i].public;
-
-        console.info( a, b );
-
-        // if(
-        //     this.public.x <= this.engine.entities[i].public.x + padding &&
-        //     this.public.x >= this.engine.entities[i].public.x - padding
-        // ) {
-        //     ret.push(this.engine.entities);
-        // }
+        if(
+            this.public.x <= (this.engine.entities[i].public.x + padding) &&
+            this.public.x >= (this.engine.entities[i].public.x - padding)
+        ) {
+            ret.push(this.engine.entities[i]);
+        }
     }
 
     return( ret );

@@ -7,17 +7,32 @@ function Zombie(e) {
     //this.addCooldown( "ShootingSolution", { per_second: 1/2 } );
     //this.addCooldown( "Shoot", { per_second: 1/8 } );
 
-    this.addCooldown( "Walk", { per_second: 10 });
+    this.addCooldown( "Walk", { per_second: 5 });
+    this.addCooldown( "Attack", { per_second: 3 });
     this.Walk.Start();
 }
 
 Zombie.prototype = Object.create(Entity.prototype);
 
+Zombie.prototype.onAttack = function() {
+    console.info( "BRAAAINS of entity # " + this.Attack.target.serial );
+    this.Attack.target.public.life -= 10;
+    if( this.Attack.target.public.life <= 0 ) {
+        this.Attack.target.__active = false;
+        this.Attack.Stop();
+        this.Walk.Start();
+    }
+}
+
 Zombie.prototype.onWalk = function() {
 
     var col = this.hasCollisions();
     for( var i = 0; i < col.length; i++ ) {
-        console.info( "ACK hitting " + col[i].name );
+        //console.info( "ACK hitting " + col[i].name );
+        // lets fight
+        this.Walk.Stop();
+        this.Attack.target = col[i];
+        this.Attack.Start();
         return;
     }
 

@@ -28,6 +28,8 @@ Engine.prototype.defaultInit = function(e) {
     this.debug = false;
     this.__pause = false;
 
+    this.serial = 100;
+
     this.setBoardSize(this.board_width, this.board_height);
     mixProperties( this, e );
 
@@ -63,6 +65,8 @@ Engine.prototype.addEntity = function(e) {
     mixProperties(e, { interval: this.interval });
     if( this.debug === true ) this.setupDebugEntity(e);
     e.engine = this;
+    this.serial++;
+    e.serial = this.serial;
     this.renderer.drawEntity(e);
     this.entities.push(e);
 }

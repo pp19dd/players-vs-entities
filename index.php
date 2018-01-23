@@ -37,34 +37,37 @@
             }
         }
 
-        function make_random() {
+        function make_plant(x,y,life) {
             var p = new Plant({ });
-            p.public.x = parseInt(Math.random() * engine.board_width/3);
-            p.public.y = parseInt(Math.random() * engine.board_height);
-            p.public.life = parseInt(Math.random() * 100);
+            p.public.x = x;
+            p.public.y = y;
+            p.public.life = life;
             engine.addEntity(p);
+        }
 
-            var z = new Zombie({ });
-            z.public.x = parseInt(
-                (engine.board_width)*(2/3) +
-                (Math.random() * engine.board_width/3)
-            );
-            z.public.y = parseInt(Math.random() * engine.board_height);
-            z.public.life = parseInt(Math.random() * 100);
-            engine.addEntity(z);
+        function make_zombie(x,y,life) {
+            var p = new Zombie({ });
+            p.public.x = x;
+            p.public.y = y;
+            p.public.life = life;
+            engine.addEntity(p);
+        }
 
+        for( var i = 0; i < 20; i++ ) {
+            var x = parseInt(Math.random() * 10);
+            var y = parseInt(Math.random() * 8);
+            make_plant(x, y, 100);
+        }
+
+        for( var i = 0; i < 5; i++ ) {
+            var x = 5 + parseInt(Math.random() * 10);
+            var y = parseInt(Math.random() * 8);
+            make_zombie(x, y, 100);
         }
 
         make_terrain();
-        for( var i = 0; i < 4; i++ ) {
-            make_random();
-        }
-
-        //var e1 = new Entity({});
-        // c1.onReady(function() {
-        //     console.info( "PEW" );
-        // });
-        //engine.addEntity(e1);
+        make_plant(3,4,100);
+        make_zombie(6,4,100);
 
         engine.Start();
 
