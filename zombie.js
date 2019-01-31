@@ -7,7 +7,7 @@ function Zombie(e) {
     //this.addCooldown( "ShootingSolution", { per_second: 1/2 } );
     //this.addCooldown( "Shoot", { per_second: 1/8 } );
 
-    this.addCooldown( "Walk", { per_second: 5 });
+    this.addCooldown( "Walk", { per_second: 10 });
     this.addCooldown( "Attack", { per_second: 3 });
     this.Walk.Start();
 }
@@ -36,7 +36,7 @@ Zombie.prototype.onWalk = function() {
         return;
     }
 
-    this.public.x -= 0.5;
+    this.public.x -= 0.03;
 
     if( this.public.x <= 0 ) {
         this.Walk.Stop();

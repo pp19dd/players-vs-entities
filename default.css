@@ -9,6 +9,19 @@ body, html {
     background-color:#FFFFFF;
 }
 
+/* sprites page */
+body.sprite-editor .sprites { display: flex;  }
+body.sprite-editor .sprite { border: 2px solid gray; margin: 0.5em; width: 10em; font-size: 1.75em }
+body.sprite-editor .sprite div { padding: 0.25em }
+body.sprite-editor .single-sprite img { width: 100% }
+body.sprite-editor .single-sprite canvas { }
+body.sprite-editor #sprite-tables { display: flex; flex-wrap: wrap }
+body.sprite-editor .sprite-table { margin: 0.5em }
+body.sprite-editor .sprite-table caption { text-align: left; font-size: 1.5em; background-color: gray; color: white }
+body.sprite-editor .sprite-table caption a {color: black; float: right; padding-right: 0.5em }
+body.sprite-editor .sprite-table * { font-size: 1.15em; padding:0.1em }
+body.sprite-editor .sprite-table th { text-align: right }
+
 /* board */
 
 

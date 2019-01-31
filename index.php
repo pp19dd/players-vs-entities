@@ -11,15 +11,13 @@
     <script src="cooldown.js?ts=<?php echo time() ?>"></script>
     <script src="entity.js?ts=<?php echo time() ?>"></script>
     <script src="renderer.js?ts=<?php echo time() ?>"></script>
-    <script src="renderer-raphael.js?ts=<?php echo time() ?>"></script>
-    <script src="raphael.min.js"></script>
-    <script src="art.php?ts=<?php echo time() ?>"></script>
+    <script src="renderer-oga.js?ts=<?php echo time() ?>"></script>
 
     <script src="plant.js?ts=<?php echo time() ?>"></script>
     <script src="zombie.js?ts=<?php echo time() ?>"></script>
     <script>
         var engine = new Engine({ debug: true });
-        var renderer = new RendererRaphael({
+        var renderer = new RendererOGA({
             div: "display",
             width:1000,
             height:480
@@ -53,21 +51,21 @@
             engine.addEntity(p);
         }
 
-        for( var i = 0; i < 20; i++ ) {
-            var x = parseInt(Math.random() * 10);
-            var y = parseInt(Math.random() * 8);
-            make_plant(x, y, 100);
-        }
+        // for( var i = 0; i < 20; i++ ) {
+        //     var x = parseInt(Math.random() * 10);
+        //     var y = parseInt(Math.random() * 8);
+        //     make_plant(x, y, 100);
+        // }
 
-        for( var i = 0; i < 5; i++ ) {
-            var x = 5 + parseInt(Math.random() * 10);
-            var y = parseInt(Math.random() * 8);
-            make_zombie(x, y, 100);
-        }
+        // for( var i = 0; i < 5; i++ ) {
+        //     var x = 5 + parseInt(Math.random() * 10);
+        //     var y = parseInt(Math.random() * 8);
+        //     make_zombie(x, y, 100);
+        // }
 
         make_terrain();
         make_plant(3,4,100);
-        make_zombie(6,4,100);
+        make_zombie(15,4,100);
 
         engine.Start();
 
